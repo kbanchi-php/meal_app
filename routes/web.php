@@ -13,12 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [App\Http\Controllers\MealPostController::class, 'index'])
+    ->name('root');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::resource('meal-posts', App\Http\Controllers\MealPostController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('meal-posts', App\Http\Controllers\MealPostController::class)
+    ->only(['index', 'show']);
+
+require __DIR__ . '/auth.php';

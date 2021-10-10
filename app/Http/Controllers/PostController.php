@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Like;
 
 class PostController extends Controller
 {
@@ -19,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
         // get meal posts
-        $posts = Post::latest()->paginate(4);
+        $posts = Post::with('likes')->latest()->paginate(4);
 
         // transfer view
         return view('posts.index', compact('posts'));
@@ -96,10 +97,16 @@ class PostController extends Controller
     public function show(Post $post)
     {
         // get meal post info with user info
-        $post = Post::with(['user'])->find($post->id);
+        $post = Post::with(['user', 'likes'])->find($post->id);
+
+        // get like from user_id and post_id
+        $query = Like::query();
+        $query->where('user_id', auth()->user()->id);
+        $query->where('post_id', $post->id);
+        $like = $query->get();
 
         // transfer view
-        return view('posts.show', compact('post'));
+        return view('posts.show', compact('post', 'like'));
     }
 
     /**

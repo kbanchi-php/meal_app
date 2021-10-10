@@ -19,7 +19,7 @@
                             alt="image">
                         <p class="text-gray-700 text-base">{{ Str::limit($post->body, 50) }}</p>
                         <p class="text-2xl mb-2 font-bold text-gray-600">
-                            お気に入り数 : 1
+                            お気に入り数 : {{ count($post->likes) }}
                         </p>
                     </a>
                 </article>

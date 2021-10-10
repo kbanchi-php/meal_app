@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MealPost extends Model
+class Post extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'detail'
+        'body'
     ];
 
-    public function meal_category()
+    public function category()
     {
-        return $this->belongsTo(\App\Models\MealCategory::class);
+        return $this->belongsTo(\App\Models\Category::class);
     }
 
     public function user()
@@ -24,8 +24,8 @@ class MealPost extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
-    public function meal_favorites()
+    public function likes()
     {
-        return $this->hasMany(\App\Models\MealFavorite::class);
+        return $this->hasMany(\App\Models\Like::class);
     }
 }

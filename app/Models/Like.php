@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MealFavorite extends Model
+class Like extends Model
 {
     use HasFactory;
 
-    public function meal_post()
+    public function post()
     {
-        return $this->belongsTo(\App\Models\MealPost::class);
+        return $this->belongsTo(\App\Models\Post::class);
     }
 
     public function user()

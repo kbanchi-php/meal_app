@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MealCategory extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    public function meal_posts()
+    public function posts()
     {
-        return $this->hasMany(\App\Models\MealPost::class);
+        return $this->hasMany(\App\Models\Post::class);
     }
 }

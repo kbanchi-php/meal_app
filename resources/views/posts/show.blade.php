@@ -7,31 +7,37 @@
                 {{ $post->title }}</h2>
             <h3>{{ $post->user->name }}</h3>
             <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
-                Current Time :
-                <span class="text-red-400 font-bold">{{ $post->created_at }}</span>
+                現在時刻 :
+                <span class="text-red-400 font-bold">{{ date('Y-m-d H:i:s') }}</span>
             </p>
             <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
-                Create At : {{ $post->created_at }}
+                記事作成日 : {{ $post->created_at }}
             </p>
-            <img src="{{ Storage::url('images/meal_posts/' . $post->image) }}" alt="image" class="mb-4">
-            <p class="text-gray-700 text-base">{!! nl2br(e($post->detail)) !!}</p>
+            <img src="{{ Storage::url('images/posts/' . $post->image) }}" alt="image" class="mb-4">
+            <p class="text-gray-700 text-base">{!! nl2br(e($post->body)) !!}</p>
         </article>
         <div class="flex flex-row text-center my-4">
+            <form action="{{ route('posts.likes.store', $post) }}" method="post">
+                @csrf
+                <input type="submit" value="お気に入り"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
+            </form>
             <form action="" method="post">
                 @csrf
-                <input type="submit" value="お気に入り登録"
+                @method('DELETE')
+                <input type="submit" value="お気に入り削除"
                     class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
             </form>
         </div>
         <div class="flex flex-row text-center my-4">
-            <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
+            <p class="text-sm mb-2 md:text-base font-bold text-gray-600">
                 お気に入り数:1
             </p>
         </div>
         <div class="flex flex-row text-center my-4">
-            <a href="{{ route('meal-posts.edit', $post) }}"
+            <a href="{{ route('posts.edit', $post) }}"
                 class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">編集</a>
-            <form action="{{ route('meal-posts.destroy', $post) }}" method="post">
+            <form action="{{ route('posts.destroy', $post) }}" method="post">
                 @csrf
                 @method('DELETE')
                 <input type="submit" value="削除" onclick="if(!confirm('削除しますか？')){return false};"

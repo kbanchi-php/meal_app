@@ -17,18 +17,22 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [App\Http\Controllers\MealPostController::class, 'index'])
+Route::get('/', [App\Http\Controllers\PostController::class, 'index'])
     ->name('root');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource('meal-posts', App\Http\Controllers\MealPostController::class)
+Route::resource('posts', App\Http\Controllers\PostController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
 
-Route::resource('meal-posts', App\Http\Controllers\MealPostController::class)
+Route::resource('posts', App\Http\Controllers\PostController::class)
     ->only(['index', 'show']);
+
+Route::resource('posts.likes', App\Http\Controllers\LikeController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth');
 
 require __DIR__ . '/auth.php';

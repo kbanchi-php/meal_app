@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MealCategorySeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -28,6 +28,6 @@ class MealCategorySeeder extends Seeder
                 'name' => '炭水化物'
             ],
         ];
-        DB::table('meal_categories')->insert($param);
+        DB::table('categories')->insert($param);
     }
 }

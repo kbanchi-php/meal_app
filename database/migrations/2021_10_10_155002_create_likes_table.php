@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMealPostsTable extends Migration
+class CreateLikesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateMealPostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('meal_posts', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->foreignId('meal_category_id')
-                ->constrained('meal_categories')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-            $table->text('detail');
-            $table->string('image');
             $table->foreignId('user_id')
                 ->constrained('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('post_id')->index()
+                ->constrained('posts')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->timestamps();
@@ -37,6 +34,6 @@ class CreateMealPostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('meal_posts');
+        Schema::dropIfExists('likes');
     }
 }

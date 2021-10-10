@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MealPostRequest extends FormRequest
+class PostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,6 @@ class MealPostRequest extends FormRequest
      */
     public function rules()
     {
-
         // get route info
         $route = $this->route()->getName();
 
@@ -31,13 +30,13 @@ class MealPostRequest extends FormRequest
         $rule = [
             'title' => 'required|string|max:50',
             'category' => 'required',
-            'detail' => 'required|string|max:2000',
+            'body' => 'required|string|max:2000',
         ];
 
         // if from store or update routing, set image rule
         if (
-            $route === 'meal-posts.store' ||
-            ($route === 'meal-posts.update' && $this->file('image'))
+            $route === 'posts.store' ||
+            ($route === 'posts.update' && $this->file('image'))
         ) {
             $rule['image'] = 'required|file|image|mimes:jpeg,png';
         }

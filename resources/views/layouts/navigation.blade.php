@@ -36,14 +36,14 @@
                     <x-slot name="content">
                         <!-- Authentication -->
                         @auth
-                            <x-dropdown-link :href="route('posts.create')">
+                            <x-dropdown-link :href="route('meal-posts.create')">
                                 {{ __('Create Post') }}
                             </x-dropdown-link>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
-                                                                                                        this.closest('form').submit();">
+                                                                                                                this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
@@ -93,14 +93,14 @@
 
                 <div class="mt-3 space-y-1">
                     <!-- Authentication -->
-                    <x-responsive-nav-link :href="route('posts.create')">
+                    <x-responsive-nav-link :href="route('meal-posts.create')">
                         {{ __('Create Post') }}
                     </x-responsive-nav-link>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
-                                                                                                this.closest('form').submit();">
+                                                                                                        this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>

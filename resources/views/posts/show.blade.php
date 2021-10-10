@@ -17,12 +17,12 @@
             <p class="text-gray-700 text-base">{!! nl2br(e($post->body)) !!}</p>
         </article>
         <div class="flex flex-row text-center my-4">
-            <form action="{{ route('posts.likes.store', $post) }}" method="post">
+            <form action="{{ route('posts.likes.like', $post->id) }}" method="post">
                 @csrf
                 <input type="submit" value="お気に入り"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
             </form>
-            <form action="" method="post">
+            <form action="{{ route('posts.likes.unlike', $post->id) }}" method="post">
                 @csrf
                 @method('DELETE')
                 <input type="submit" value="お気に入り削除"

@@ -9,15 +9,13 @@ use App\Models\Post;
 
 class LikeController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, Post $post)
+
+    public function like($id)
     {
-        // set favorite info
+        // get post info
+        $post = Post::find($id);
+
+        // set like info
         $like = new Like();
         $like->user_id = auth()->user()->id;
         $like->post_id = $post->id;
@@ -26,7 +24,7 @@ class LikeController extends Controller
         DB::beginTransaction();
         try {
             // insert db
-            $post->meal_favorites()->save($like);
+            $post->likes()->save($like);
             // commit
             DB::commit();
         } catch (\Exception $e) {
@@ -41,24 +39,21 @@ class LikeController extends Controller
             ->with('notice', 'Like to Meal Post.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Like $like, Post $post)
+    public function unlike($id)
     {
+        // get post info
+        $post = Post::find($id);
+
         // set favorite info
-        $like = new Like();
-        $like->user_id = auth()->user()->id;
-        $like->post_id = $post->id;
+        $query = Like::query();
+        $query->where('user_id', auth()->user()->id);
+        $query->where('post_id', $post->id);
 
         // db insert transaction
         DB::beginTransaction();
         try {
-            // insert db
-            $post->meal_favorites()->save($like);
+            // delete db
+            $query->delete();
             // commit
             DB::commit();
         } catch (\Exception $e) {

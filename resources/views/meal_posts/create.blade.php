@@ -1,7 +1,9 @@
 <x-app-layout>
     <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white shadow-md">
+        <x-validation-errors :errors="$errors" />
         <h2 class="text-center text-lg font-bold pt-6 tracking-widest">食事記事投稿</h2>
-        <form action="" method="post" enctype="multipart/form-data" class="rounded pt-3 pb-8 mb-4">
+        <form action="{{ route('meal-posts.store') }}" method="post" enctype="multipart/form-data"
+            class="rounded pt-3 pb-8 mb-4">
             @csrf
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="title">
@@ -9,30 +11,21 @@
                 </label>
                 <input type="text" name="title"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full py-2 px-3"
-                    required placeholder="タイトル" value="">
+                    required placeholder="タイトル" value="{{ old('title') }}">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="category">
                     カテゴリー
                 </label>
-                <div>
-                    <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio" name="category" value="1" checked>
-                        <span class="ml-2">野菜</span>
-                    </label>
-                </div>
-                <div>
-                    <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio" name="category" value="2">
-                        <span class="ml-2">タンパク質</span>
-                    </label>
-                </div>
-                <div>
-                    <label class="inline-flex items-center">
-                        <input type="radio" class="form-radio" name="category" value="3">
-                        <span class="ml-2">炭水化物</span>
-                    </label>
-                </div>
+                @foreach ($categories as $category)
+                    <div>
+                        <label class="inline-flex items-center">
+                            <input type="radio" class="form-radio" name="category" value="{{ $category->id }}"
+                                {{ $category->id == '1' ? 'checked' : '' }}>
+                            <span class="ml-2">{{ $category->name }}</span>
+                        </label>
+                    </div>
+                @endforeach
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="detail">
@@ -40,7 +33,7 @@
                 </label>
                 <textarea name="detail" rows="10"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full py-2 px-3"
-                    required></textarea>
+                    required>{{ old('detail') }}</textarea>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="image">

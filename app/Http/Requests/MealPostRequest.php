@@ -13,7 +13,7 @@ class MealPostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,25 @@ class MealPostRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+
+        // get route info
+        $route = $this->route()->getName();
+
+        // set rules
+        $rule = [
+            'title' => 'required|string|max:50',
+            'category' => 'required',
+            'detail' => 'required|string|max:2000',
         ];
+
+        // if from store or update routing, set image rule
+        if (
+            $route === 'meal-posts.store' ||
+            ($route === 'meal-posts.update' && $this->file('image'))
+        ) {
+            $rule['image'] = 'required|file|image|mimes:jpeg,png';
+        }
+
+        return $rule;
     }
 }

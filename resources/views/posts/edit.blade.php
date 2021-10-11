@@ -42,7 +42,7 @@
                     食事の画像
                 </label>
                 <input type="file" name="image" class="border-gray-300" onchange="previewImage(this);">
-                <img id="preview" style="max-width:200px;" src="{{ Storage::url('images/posts/' . $post->image) }}">
+                <img id="preview" style="max-width:200px;" src="{{ $post->image_url }}">
             </div>
             <input type="submit" value="更新"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

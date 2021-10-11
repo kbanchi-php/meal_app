@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
@@ -35,7 +34,7 @@ class PostController extends Controller
     public function create()
     {
         // get all categories
-        $categories = Category::all();
+        $categories = Category::all()->sortBy('id');;
 
         // transfer view
         return view('posts.create', compact('categories'));
@@ -44,7 +43,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\PostRequest;  $request
      * @return \Illuminate\Http\Response
      */
     public function store(PostRequest $request)
@@ -86,13 +85,13 @@ class PostController extends Controller
 
         // redirect view
         return redirect()->route('posts.show', $post)
-            ->with('notice', 'Complete create new Meal Post.');
+            ->with('notice', 'Complete Create New Meal Post.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
@@ -100,7 +99,7 @@ class PostController extends Controller
         // get meal post info with user info
         $post = Post::with(['user', 'likes'])->find($post->id);
 
-        // get like from user_id and post_id
+        // to check login user already likes, get like from user_id and post_id
         if (Auth::check()) {;
             $query = Like::query();
             $query->where('user_id', auth()->user()->id);
@@ -117,13 +116,13 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
     public function edit(Post $post)
     {
         // get all categories
-        $categories = Category::all();
+        $categories = Category::all()->sortBy('id');
 
         // transfer view
         return view('posts.edit', compact('post', 'categories'));
@@ -132,8 +131,8 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\PostRequest;  $request
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
     public function update(PostRequest $request, Post $post)
@@ -184,13 +183,13 @@ class PostController extends Controller
 
         // redirect view
         return redirect()->route('posts.show', $post)
-            ->with('notice', 'Complete update Meal Post.');
+            ->with('notice', 'Complete Update Meal Post.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
     public function destroy(Post $post)
@@ -216,6 +215,6 @@ class PostController extends Controller
 
         // redirect view
         return redirect()->route('posts.index')
-            ->with('notice', 'Complete delete Meal Post.');
+            ->with('notice', 'Complete Delete Meal Post.');
     }
 }

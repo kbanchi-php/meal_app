@@ -10,15 +10,20 @@ use App\Models\Post;
 class LikeController extends Controller
 {
 
-    public function like(Request $request, $id)
+    /**
+     * Like Meal Post.
+     *
+     * @param  Illuminate\Http\Request;  $request
+     * @param  Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function like(Request $request, Post $post)
     {
-        // get post info
-        $post = Post::find($id);
-
         // set like info
         $like = new Like();
         $like->user_id = auth()->user()->id;
         $like->post_id = $post->id;
+        $like->timestamps = false;
 
         // db insert transaction
         DB::beginTransaction();
@@ -42,11 +47,15 @@ class LikeController extends Controller
             ->with('notice', 'Like to Meal Post.');
     }
 
-    public function unlike(Request $request, $id)
+    /**
+     * UnLike Meal Post.
+     *
+     * @param  Illuminate\Http\Request;  $request
+     * @param  Post  $post
+     * @return \Illuminate\Http\Response
+     */
+    public function unlike(Request $request, Post $post)
     {
-        // get post info
-        $post = Post::find($id);
-
         // set favorite info
         $query = Like::query();
         $query->where('user_id', auth()->user()->id);
@@ -71,6 +80,6 @@ class LikeController extends Controller
         // redirect view
         return redirect()
             ->route('posts.show', $post)
-            ->with('notice', 'Unlike to Meal Post.');
+            ->with('notice', 'Unlike from Meal Post.');
     }
 }

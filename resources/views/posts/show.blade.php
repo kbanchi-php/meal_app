@@ -13,20 +13,20 @@
             <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
                 記事作成日 : {{ $post->created_at }}
             </p>
-            <img src="{{ Storage::url('images/posts/' . $post->image) }}" alt="image" class="mb-4">
+            <img src="{{ $post->image_url }}" alt="image" class="mb-4">
             <p class="text-gray-700 text-base">{!! nl2br(e($post->body)) !!}</p>
         </article>
         @auth
             <div class="flex flex-row text-center my-4">
                 @if (count($like) == 0)
-                    <form action="{{ route('posts.likes.like', $post->id) }}" method="post"
+                    <form action="{{ route('posts.likes.like', $post) }}" method="post"
                         onsubmit="checkDoubleSubmit(document.getElementById('likeBtn'));">
                         @csrf
                         <input id="likeBtn" type="submit" value="お気に入り"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
                     </form>
                 @else
-                    <form action="{{ route('posts.likes.unlike', $post->id) }}" method="post"
+                    <form action="{{ route('posts.likes.unlike', $post) }}" method="post"
                         onsubmit="checkDoubleSubmit(document.getElementById('unlikeBtn'));">
                         @csrf
                         @method('DELETE')

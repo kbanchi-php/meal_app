@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Nette\Utils\DateTime;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
@@ -30,6 +31,27 @@ class Post extends Model
         return $this->hasMany(\App\Models\Like::class);
     }
 
+    /**
+     * Get Image Url function
+     * return http://localhost/storage/images/posts/[file_name]
+     */
+    public function getImageUrlAttribute()
+    {
+        return Storage::url($this->image_path);
+    }
+
+    /**
+     * Get Image Path function
+     * return images/posts/[file_name]
+     */
+    public function getImagePathAttribute()
+    {
+        return 'images/posts/' . $this->image;
+    }
+
+    /**
+     * Get Elaped Time from Meal Post time to current time.
+     */
     public function getElapsedTimeAttribute()
     {
         // get current time
@@ -42,7 +64,7 @@ class Post extends Model
             $elaped_time = $post_time->diff($now)->s . '秒';
         } elseif ($post_time->diff(new DateTime("now -1 hours"))->invert) {
             // if meal post time is within 1 hour
-            $elaped_time = $post_time->diff($now)->m . '分';
+            $elaped_time = $post_time->diff($now)->i . '分';
         } elseif ($post_time->diff(new DateTime("now -1 days"))->invert) {
             // if meal post time is within 1 day
             $elaped_time = $post_time->diff($now)->h . '時間';

@@ -13,16 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', [App\Http\Controllers\PostController::class, 'index'])
     ->name('root');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 Route::resource('posts', App\Http\Controllers\PostController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
@@ -31,11 +23,11 @@ Route::resource('posts', App\Http\Controllers\PostController::class)
 Route::resource('posts', App\Http\Controllers\PostController::class)
     ->only(['index', 'show']);
 
-Route::post('posts/{posts}/like', [
+Route::post('posts/{post}/like', [
     App\Http\Controllers\LikeController::class, 'like'
 ])->middleware('auth')->name('posts.likes.like');
 
-Route::delete('posts/{posts}/unlike', [
+Route::delete('posts/{post}/unlike', [
     App\Http\Controllers\LikeController::class, 'unlike'
 ])->middleware('auth')->name('posts.likes.unlike');
 

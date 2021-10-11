@@ -15,8 +15,7 @@
                         <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
                             記事作成日 : {{ $post->created_at }}
                         </p>
-                        <img class="w-full mb-2" src="{{ Storage::url('images/posts/' . $post->image) }}"
-                            alt="image">
+                        <img class="w-full mb-2" src="{{ $post->image_url }}" alt="image">
                         <p class="text-gray-700 text-base">{{ Str::limit($post->body, 50) }}</p>
                         <p class="text-2xl mb-2 font-bold text-gray-600">
                             お気に入り数 : {{ count($post->likes) }}

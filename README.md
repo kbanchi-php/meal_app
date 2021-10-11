@@ -1,64 +1,58 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# meal_app
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About This App
+* 食事投稿アプリ
+* https://github.com/elites-team/camp202109-laravel/blob/master/doc/08_laravel/07_hare_blog/exercise/meal_app/01.md
 
-## About Laravel
+## 性能チェック
+* 講義中にお気に入り(Likeテーブル)に関する性能の話があったので、確認してみました
+* faker&seederで10万件ほどデータを用意し、性能をチェック
+* 結論、レスポンスタイムは問題なし
+* SQLについて、Likeテーブルの索引(外部キー索引)が効き、ちゃんとIndexScanになっていました
+```
+mysql> explain select * from `likes` where `likes`.`post_id` in (801, 802, 803, 804);
++----+-------------+-------+------------+-------+-----------------------+-----------------------+---------+------+------+----------+-----------------------+
+| id | select_type | table | partitions | type  | possible_keys         | key                   | key_len | ref  | rows | filtered | Extra                 |
++----+-------------+-------+------------+-------+-----------------------+-----------------------+---------+------+------+----------+-----------------------+
+|  1 | SIMPLE      | likes | NULL       | range | likes_post_id_foreign | likes_post_id_foreign | 8       | NULL | 4000 |   100.00 | Using index condition |
++----+-------------+-------+------------+-------+-----------------------+-----------------------+---------+------+------+----------+-----------------------+
+1 row in set, 1 warning (0.00 sec)
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 画面
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 一覧画面
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![index01](./doc/images/index_01.png)
 
-## Learning Laravel
+![index02](./doc/images/index_02.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 登録画面
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+![create01](./doc/images/create_01.png)
 
-## Laravel Sponsors
+![create02](./doc/images/create_02.png)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### 詳細画面(ログイン済)
 
-### Premium Partners
+自分の投稿
+![show01](./doc/images/show_01.png)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+![show02](./doc/images/show_02.png)
 
-## Contributing
+他の人の投稿
+![show03](./doc/images/show_03.png)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+![show04](./doc/images/show_04.png)
 
-## Code of Conduct
+お気に入り済
+![show05](./doc/images/show_05.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+未ログイン
+![show06](./doc/images/show_06.png)
 
-## Security Vulnerabilities
+### 編集画面
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+![edit01](./doc/images/edit_01.png)
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+![edit02](./doc/images/edit_02.png)

@@ -10,7 +10,7 @@ use App\Models\Post;
 class LikeController extends Controller
 {
 
-    public function like($id)
+    public function like(Request $request, $id)
     {
         // get post info
         $post = Post::find($id);
@@ -33,13 +33,16 @@ class LikeController extends Controller
             return back()->withInput()->withErrors($e->getMessage());
         }
 
+        // prevent double registration
+        $request->session()->regenerateToken();
+
         // redirect view
         return redirect()
             ->route('posts.show', $post)
             ->with('notice', 'Like to Meal Post.');
     }
 
-    public function unlike($id)
+    public function unlike(Request $request, $id)
     {
         // get post info
         $post = Post::find($id);
@@ -61,6 +64,9 @@ class LikeController extends Controller
             DB::rollBack();
             return back()->withInput()->withErrors($e->getMessage());
         }
+
+        // prevent double registration
+        $request->session()->regenerateToken();
 
         // redirect view
         return redirect()

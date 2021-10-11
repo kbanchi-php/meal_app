@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Like;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -100,10 +101,14 @@ class PostController extends Controller
         $post = Post::with(['user', 'likes'])->find($post->id);
 
         // get like from user_id and post_id
-        $query = Like::query();
-        $query->where('user_id', auth()->user()->id);
-        $query->where('post_id', $post->id);
-        $like = $query->get();
+        if (Auth::check()) {;
+            $query = Like::query();
+            $query->where('user_id', auth()->user()->id);
+            $query->where('post_id', $post->id);
+            $like = $query->get();
+        } else {
+            $like = [];
+        }
 
         // transfer view
         return view('posts.show', compact('post', 'like'));

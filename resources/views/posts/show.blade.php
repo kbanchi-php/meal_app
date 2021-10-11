@@ -7,8 +7,8 @@
                 {{ $post->title }}</h2>
             <h3>{{ $post->user->name }}</h3>
             <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
-                現在時刻 :
-                <span class="text-red-400 font-bold">{{ date('Y-m-d H:i:s') }}</span>
+                <span class="text-red-400 font-bold">{{ $post->elapsed_time }}</span>
+                前に作成
             </p>
             <p class="text-sm mb-2 md:text-base font-normal text-gray-600">
                 記事作成日 : {{ $post->created_at }}
@@ -19,16 +19,18 @@
         @auth
             <div class="flex flex-row text-center my-4">
                 @if (count($like) == 0)
-                    <form action="{{ route('posts.likes.like', $post->id) }}" method="post">
+                    <form action="{{ route('posts.likes.like', $post->id) }}" method="post"
+                        onsubmit="checkDoubleSubmit(document.getElementById('likeBtn'));">
                         @csrf
-                        <input type="submit" value="お気に入り"
+                        <input id="likeBtn" type="submit" value="お気に入り"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
                     </form>
                 @else
-                    <form action="{{ route('posts.likes.unlike', $post->id) }}" method="post">
+                    <form action="{{ route('posts.likes.unlike', $post->id) }}" method="post"
+                        onsubmit="checkDoubleSubmit(document.getElementById('unlikeBtn'));">
                         @csrf
                         @method('DELETE')
-                        <input type="submit" value="お気に入り削除"
+                        <input id="unlikeBtn" type="submit" value="お気に入り削除"
                             class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
                     </form>
                 @endif
@@ -54,4 +56,14 @@
             </div>
         @endauth
     </div>
+    <script>
+        function checkDoubleSubmit(obj) {
+            if (obj.disabled) {
+                return false;
+            } else {
+                obj.disabled = true;
+                return true;
+            }
+        }
+    </script>
 </x-app-layout>

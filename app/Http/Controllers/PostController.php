@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
         // get meal posts
-        $posts = Post::with('likes')->latest()->paginate(4);
+        $posts = Post::with(['user', 'likes'])->latest()->paginate(4);
 
         // transfer view
         return view('posts.index', compact('posts'));

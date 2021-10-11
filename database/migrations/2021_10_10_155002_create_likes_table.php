@@ -19,7 +19,7 @@ class CreateLikesTable extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('post_id')->index()
+            $table->foreignId('post_id')
                 ->constrained('posts')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();

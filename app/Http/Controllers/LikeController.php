@@ -23,7 +23,6 @@ class LikeController extends Controller
         $like = new Like();
         $like->user_id = auth()->user()->id;
         $like->post_id = $post->id;
-        $like->timestamps = false;
 
         // db insert transaction
         DB::beginTransaction();

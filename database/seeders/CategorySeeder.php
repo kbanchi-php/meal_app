@@ -17,15 +17,23 @@ class CategorySeeder extends Seeder
         $param = [
             [
                 'id' => 1,
-                'name' => '野菜'
+                'name' => '肉類'
             ],
             [
                 'id' => 2,
-                'name' => 'タンパク質'
+                'name' => '麺類'
             ],
             [
                 'id' => 3,
-                'name' => '炭水化物'
+                'name' => '丼もの'
+            ],
+            [
+                'id' => 4,
+                'name' => '魚類'
+            ],
+            [
+                'id' => 5,
+                'name' => '揚げ物'
             ],
         ];
         DB::table('categories')->insert($param);

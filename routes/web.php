@@ -13,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [App\Http\Controllers\PostController::class, 'index'])
+    ->name('root');
+
+Route::resource('posts', App\Http\Controllers\PostController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('posts', App\Http\Controllers\PostController::class)
+    ->only(['index', 'show']);
+
+Route::resource('posts.likes', App\Http\Controllers\LikeController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth');
+
+require __DIR__ . '/auth.php';

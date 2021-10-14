@@ -104,9 +104,9 @@ class PostController extends Controller
             $query = Like::query();
             $query->where('user_id', auth()->user()->id);
             $query->where('post_id', $post->id);
-            $like = $query->get();
+            $like = $query->first();
         } else {
-            $like = [];
+            $like = null;
         }
 
         // transfer view

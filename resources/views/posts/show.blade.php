@@ -18,15 +18,15 @@
         </article>
         @auth
             <div class="flex flex-row text-center my-4">
-                @if (count($like) == 0)
-                    <form action="{{ route('posts.likes.like', $post) }}" method="post"
+                @if (empty($like))
+                    <form action="{{ route('posts.likes.store', $post) }}" method="post"
                         onsubmit="checkDoubleSubmit(document.getElementById('likeBtn'));">
                         @csrf
                         <input id="likeBtn" type="submit" value="お気に入り"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-40">
                     </form>
                 @else
-                    <form action="{{ route('posts.likes.unlike', $post) }}" method="post"
+                    <form action="{{ route('posts.likes.destroy', [$post, $like]) }}" method="post"
                         onsubmit="checkDoubleSubmit(document.getElementById('unlikeBtn'));">
                         @csrf
                         @method('DELETE')

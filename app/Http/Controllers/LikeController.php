@@ -17,7 +17,7 @@ class LikeController extends Controller
      * @param  Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function like(Request $request, Post $post)
+    public function store(Request $request, Post $post)
     {
         // set like info
         $like = new Like();
@@ -51,20 +51,16 @@ class LikeController extends Controller
      *
      * @param  Illuminate\Http\Request;  $request
      * @param  Post  $post
+     * @param  Like  $like
      * @return \Illuminate\Http\Response
      */
-    public function unlike(Request $request, Post $post)
+    public function destroy(Request $request, Post $post, Like $like)
     {
-        // set favorite info
-        $query = Like::query();
-        $query->where('user_id', auth()->user()->id);
-        $query->where('post_id', $post->id);
-
         // db insert transaction
         DB::beginTransaction();
         try {
             // delete db
-            $query->delete();
+            $like->delete();
             // commit
             DB::commit();
         } catch (\Exception $e) {
